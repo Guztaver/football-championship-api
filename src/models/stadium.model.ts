@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb';
-import { getDatabase } from '../config/database';
-import type { Stadium, CreateStadiumDto, UpdateStadiumDto } from '../types';
+import { getDatabase } from '../config/database.js';
+import type { Stadium, CreateStadiumDto, UpdateStadiumDto } from '../types/index.js';
 
 const COLLECTION = 'stadiums';
 

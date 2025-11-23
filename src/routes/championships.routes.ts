@@ -1,5 +1,5 @@
 import { Elysia, t } from 'elysia';
-import { ChampionshipModel } from '../models/championship.model';
+import { ChampionshipModel } from '../models/championship.model.js';
 
 export const championshipsRoutes = new Elysia({ prefix: '/championships' })
     // Create Championship

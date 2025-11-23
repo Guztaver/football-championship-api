@@ -1,12 +1,12 @@
 import { Elysia } from 'elysia';
 import { swagger } from '@elysiajs/swagger';
 import { cors } from '@elysiajs/cors';
-import { connectToDatabase, closeDatabase } from './config/database';
-import { teamsRoutes } from './routes/teams.routes';
-import { playersRoutes } from './routes/players.routes';
-import { matchesRoutes } from './routes/matches.routes';
-import { championshipsRoutes } from './routes/championships.routes';
-import { stadiumsRoutes } from './routes/stadiums.routes';
+import { connectToDatabase, closeDatabase } from './config/database.js';
+import { teamsRoutes } from './routes/teams.routes.js';
+import { playersRoutes } from './routes/players.routes.js';
+import { matchesRoutes } from './routes/matches.routes.js';
+import { championshipsRoutes } from './routes/championships.routes.js';
+import { stadiumsRoutes } from './routes/stadiums.routes.js';
 
 const PORT = process.env.PORT || 3000;
 

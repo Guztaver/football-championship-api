@@ -1,5 +1,5 @@
 import { Elysia, t } from 'elysia';
-import { MatchModel } from '../models/match.model';
+import { MatchModel } from '../models/match.model.js';
 
 export const matchesRoutes = new Elysia({ prefix: '/matches' })
     // Create Match

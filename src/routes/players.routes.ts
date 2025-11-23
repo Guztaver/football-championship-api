@@ -1,5 +1,5 @@
 import { Elysia, t } from 'elysia';
-import { PlayerModel } from '../models/player.model';
+import { PlayerModel } from '../models/player.model.js';
 
 export const playersRoutes = new Elysia({ prefix: '/players' })
     // Create Player
