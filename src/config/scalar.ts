@@ -7,8 +7,12 @@ export const openApiSpec = {
   },
   servers: [
     {
-      url: process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000',
-      description: process.env.VERCEL_URL ? 'Servidor de produção' : 'Servidor de desenvolvimento local',
+      url: 'https://footbal-api-red.vercel.app/',
+      description: 'Servidor de produção',
+    },
+    {
+      url: 'http://localhost:3000',
+      description: 'Servidor de desenvolvimento local',
     },
   ],
   tags: [
