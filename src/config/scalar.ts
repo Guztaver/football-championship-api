@@ -1,6 +1,4 @@
-import type { OpenAPIV3_1 } from '@scalar/express-api-reference';
-
-export const openApiSpec: OpenAPIV3_1.Document = {
+export const openApiSpec = {
   openapi: '3.1.0',
   info: {
     title: 'Football Championship API',
