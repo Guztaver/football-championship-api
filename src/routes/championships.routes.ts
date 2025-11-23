@@ -10,7 +10,7 @@ championshipsRouter.post('/', async (req: Request, res: Response) => {
         res.json({
             success: true,
             data: championship,
-            message: 'Championship created successfully',
+            message: 'Campeonato criado com sucesso',
         });
     } catch (error: any) {
         res.json({
@@ -49,7 +49,7 @@ championshipsRouter.get('/:id', async (req: Request, res: Response) => {
         if (!championship) {
             return res.json({
                 success: false,
-                error: 'Championship not found',
+                error: 'Campeonato não encontrado',
             });
         }
 
@@ -97,7 +97,7 @@ championshipsRouter.post('/:id/standings/recalculate', async (req: Request, res:
         res.json({
             success: true,
             data: standings,
-            message: 'Standings recalculated successfully',
+            message: 'Classificação recalculada com sucesso',
         });
     } catch (error: any) {
         res.json({
@@ -122,7 +122,7 @@ championshipsRouter.put('/:id', async (req: Request, res: Response) => {
         res.json({
             success: true,
             data: championship,
-            message: 'Championship updated successfully',
+            message: 'Campeonato atualizado com sucesso',
         });
     } catch (error: any) {
         res.json({
@@ -146,7 +146,7 @@ championshipsRouter.delete('/:id', async (req: Request, res: Response) => {
 
         res.json({
             success: true,
-            message: 'Championship deleted successfully',
+            message: 'Campeonato deletado com sucesso',
         });
     } catch (error: any) {
         res.json({

@@ -10,7 +10,7 @@ playersRouter.post('/', async (req: Request, res: Response) => {
         res.json({
             success: true,
             data: player,
-            message: 'Player created successfully',
+            message: 'Jogador criado com sucesso',
         });
     } catch (error: any) {
         res.json({
@@ -50,7 +50,7 @@ playersRouter.get('/:id', async (req: Request, res: Response) => {
         if (!player) {
             return res.json({
                 success: false,
-                error: 'Player not found',
+                error: 'Jogador não encontrado',
             });
         }
 
@@ -81,7 +81,7 @@ playersRouter.put('/:id', async (req: Request, res: Response) => {
         res.json({
             success: true,
             data: player,
-            message: 'Player updated successfully',
+            message: 'Jogador atualizado com sucesso',
         });
     } catch (error: any) {
         res.json({
@@ -105,7 +105,7 @@ playersRouter.delete('/:id', async (req: Request, res: Response) => {
 
         res.json({
             success: true,
-            message: 'Player deleted successfully',
+            message: 'Jogador deletado com sucesso',
         });
     } catch (error: any) {
         res.json({

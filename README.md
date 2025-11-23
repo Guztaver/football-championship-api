@@ -1,51 +1,51 @@
-# Football Championship API
+# API de Campeonato de Futebol
 
-A complete CRUD API for managing football championships built with ElysiaJS, MongoDB, and Docker.
+Uma API CRUD completa para gerenciar campeonatos de futebol construída com ElysiaJS, MongoDB e Docker.
 
-## 🚀 Features
+## 🚀 Funcionalidades
 
-- **Full CRUD Operations** for:
-  - Teams
-  - Players
-  - Matches
-  - Championships
-  - Stadiums
+- **Operações CRUD Completas** para:
+  - Times
+  - Jogadores
+  - Partidas
+  - Campeonatos
+  - Estádios
 
-- **Advanced Features**:
-  - Automatic standings calculation
-  - Player statistics tracking
-  - Match filtering by date, team, and championship
-  - Pagination support
-  - Comprehensive API documentation with Swagger
+- **Funcionalidades Avançadas**:
+  - Cálculo automático de classificação
+  - Rastreamento de estatísticas de jogadores
+  - Filtro de partidas por data, time e campeonato
+  - Suporte à paginação
+  - Documentação abrangente da API com Swagger
 
-## 📋 Requirements
+## 📋 Requisitos
 
-- [Bun](https://bun.sh/) runtime
-- [Docker](https://www.docker.com/) and Docker Compose
+- Runtime [Bun](https://bun.sh/)
+- [Docker](https://www.docker.com/) e Docker Compose
 - MongoDB (via Docker)
 
-## 🛠️ Setup
+## 🛠️ Configuração
 
-### 1. Clone the repository
+### 1. Clone o repositório
 
 ```bash
-git clone <your-repo-url>
+git clone <url-do-seu-repo>
 cd football-championship-api
 ```
 
-### 2. Install dependencies
+### 2. Instale as dependências
 
 ```bash
 bun install
 ```
 
-### 3. Configure environment variables
+### 3. Configure as variáveis de ambiente
 
 ```bash
 cp .env.example .env
 ```
 
-The default configuration:
+A configuração padrão:
 ```env
 MONGODB_URI=mongodb://admin:admin123@localhost:27017
 MONGODB_DATABASE=football_championship
@@ -53,76 +53,76 @@ PORT=3000
 NODE_ENV=development
 ```
 
-### 4. Start MongoDB with Docker
+### 4. Inicie o MongoDB com Docker
 
 ```bash
 docker-compose up -d
 ```
 
-Verify MongoDB is running:
+Verifique se o MongoDB está rodando:
 ```bash
 docker-compose ps
 ```
 
-### 5. Start the API server
+### 5. Inicie o servidor da API
 
 ```bash
 bun run dev
 ```
 
-The server will start on `http://localhost:3000`
+O servidor iniciará em `http://localhost:3000`
 
-## 📚 API Documentation
+## 📚 Documentação da API
 
-Once the server is running, access the Swagger documentation at:
+Uma vez que o servidor esteja rodando, acesse a documentação Swagger em:
 ```
 http://localhost:3000/swagger
 ```
 
-## 🔗 API Endpoints
+## 🔗 Endpoints da API
 
-### Teams
-- `POST /teams` - Create a new team
-- `GET /teams` - List all teams (paginated)
-- `GET /teams/:id` - Get team by ID
-- `GET /teams/:id/players` - Get team with all players
-- `PUT /teams/:id` - Update team
-- `DELETE /teams/:id` - Delete team
+### Times
+- `POST /teams` - Criar um novo time
+- `GET /teams` - Listar todos os times (paginado)
+- `GET /teams/:id` - Buscar time por ID
+- `GET /teams/:id/players` - Buscar time com todos os jogadores
+- `PUT /teams/:id` - Atualizar time
+- `DELETE /teams/:id` - Deletar time
 
-### Players
-- `POST /players` - Create a new player
-- `GET /players` - List all players (paginated, filterable by team/position)
-- `GET /players/:id` - Get player by ID
-- `PUT /players/:id` - Update player
-- `DELETE /players/:id` - Delete player
+### Jogadores
+- `POST /players` - Criar um novo jogador
+- `GET /players` - Listar todos os jogadores (paginado, filtrável por time/posição)
+- `GET /players/:id` - Buscar jogador por ID
+- `PUT /players/:id` - Atualizar jogador
+- `DELETE /players/:id` - Deletar jogador
 
-### Matches
-- `POST /matches` - Schedule a new match
-- `GET /matches` - List all matches (filterable by team, championship, date, status)
-- `GET /matches/:id` - Get match by ID with team details
-- `PUT /matches/:id` - Update match
-- `PATCH /matches/:id/score` - Update match score
-- `DELETE /matches/:id` - Delete match
+### Partidas
+- `POST /matches` - Agendar uma nova partida
+- `GET /matches` - Listar todas as partidas (filtrável por time, campeonato, data, status)
+- `GET /matches/:id` - Buscar partida por ID com detalhes dos times
+- `PUT /matches/:id` - Atualizar partida
+- `PATCH /matches/:id/score` - Atualizar placar da partida
+- `DELETE /matches/:id` - Deletar partida
 
-### Championships
-- `POST /championships` - Create a new championship
-- `GET /championships` - List all championships (filterable by year)
-- `GET /championships/:id` - Get championship by ID
-- `GET /championships/:id/standings` - Get championship standings
-- `POST /championships/:id/standings/recalculate` - Recalculate standings
-- `PUT /championships/:id` - Update championship
-- `DELETE /championships/:id` - Delete championship
+### Campeonatos
+- `POST /championships` - Criar um novo campeonato
+- `GET /championships` - Listar todos os campeonatos (filtrável por ano)
+- `GET /championships/:id` - Buscar campeonato por ID
+- `GET /championships/:id/standings` - Buscar classificação do campeonato
+- `POST /championships/:id/standings/recalculate` - Recalcular classificação
+- `PUT /championships/:id` - Atualizar campeonato
+- `DELETE /championships/:id` - Deletar campeonato
 
-### Stadiums
-- `POST /stadiums` - Create a new stadium
-- `GET /stadiums` - List all stadiums (paginated)
-- `GET /stadiums/:id` - Get stadium by ID
-- `PUT /stadiums/:id` - Update stadium
-- `DELETE /stadiums/:id` - Delete stadium
+### Estádios
+- `POST /stadiums` - Criar um novo estádio
+- `GET /stadiums` - Listar todos os estádios (paginado)
+- `GET /stadiums/:id` - Buscar estádio por ID
+- `PUT /stadiums/:id` - Atualizar estádio
+- `DELETE /stadiums/:id` - Deletar estádio
 
-## 📝 Example Usage
+## 📝 Exemplos de Uso
 
-### Create a Team
+### Criar um Time
 
 ```bash
 curl -X POST http://localhost:3000/teams \
@@ -136,14 +136,14 @@ curl -X POST http://localhost:3000/teams \
   }'
 ```
 
-### Create a Player
+### Criar um Jogador
 
 ```bash
 curl -X POST http://localhost:3000/players \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Lionel Messi",
-    "teamId": "your-team-id",
+    "teamId": "id-do-seu-time",
     "position": "Forward",
     "number": 10,
     "birthDate": "1987-06-24",
@@ -151,24 +151,24 @@ curl -X POST http://localhost:3000/players \
   }'
 ```
 
-### Schedule a Match
+### Agendar uma Partida
 
 ```bash
 curl -X POST http://localhost:3000/matches \
   -H "Content-Type: application/json" \
   -d '{
-    "homeTeamId": "team-id-1",
-    "awayTeamId": "team-id-2",
-    "championshipId": "championship-id",
+    "homeTeamId": "id-do-time-1",
+    "awayTeamId": "id-do-time-2",
+    "championshipId": "id-do-campeonato",
     "date": "2024-12-25T20:00:00Z",
     "round": 1
   }'
 ```
 
-### Update Match Score
+### Atualizar Placar da Partida
 
 ```bash
-curl -X PATCH http://localhost:3000/matches/match-id/score \
+curl -X PATCH http://localhost:3000/matches/id-da-partida/score \
   -H "Content-Type: application/json" \
   -d '{
     "homeScore": 3,
@@ -176,112 +176,112 @@ curl -X PATCH http://localhost:3000/matches/match-id/score \
   }'
 ```
 
-## 🐳 Docker Commands
+## 🐳 Comandos Docker
 
-Start MongoDB:
+Iniciar MongoDB:
 ```bash
 bun run docker:up
-# or
+# ou
 docker-compose up -d
 ```
 
-Stop MongoDB:
+Parar MongoDB:
 ```bash
 bun run docker:down
-# or
+# ou
 docker-compose down
 ```
 
-View MongoDB logs:
+Ver logs do MongoDB:
 ```bash
 bun run docker:logs
-# or
+# ou
 docker-compose logs -f
 ```
 
-## 🧪 Development
+## 🧪 Desenvolvimento
 
-Run in development mode with hot reload:
+Executar em modo de desenvolvimento com hot reload:
 ```bash
 bun run dev
 ```
 
-Build for production:
+Build para produção:
 ```bash
 bun run build
 ```
 
-Run in production:
+Executar em produção:
 ```bash
 bun run start
 ```
 
-## 🏗️ Project Structure
+## 🏗️ Estrutura do Projeto
 
 ```
 football-championship-api/
 ├── src/
 │   ├── config/
-│   │   └── database.ts          # MongoDB connection
+│   │   └── database.ts          # Conexão MongoDB
 │   ├── models/
-│   │   ├── team.model.ts        # Team model & repository
-│   │   ├── player.model.ts      # Player model & repository
-│   │   ├── match.model.ts       # Match model & repository
-│   │   ├── championship.model.ts # Championship model & repository
-│   │   └── stadium.model.ts     # Stadium model & repository
+│   │   ├── team.model.ts        # Model & repositório de Time
+│   │   ├── player.model.ts      # Model & repositório de Jogador
+│   │   ├── match.model.ts       # Model & repositório de Partida
+│   │   ├── championship.model.ts # Model & repositório de Campeonato
+│   │   └── stadium.model.ts     # Model & repositório de Estádio
 │   ├── routes/
-│   │   ├── teams.routes.ts      # Team endpoints
-│   │   ├── players.routes.ts    # Player endpoints
-│   │   ├── matches.routes.ts    # Match endpoints
-│   │   ├── championships.routes.ts # Championship endpoints
-│   │   └── stadiums.routes.ts   # Stadium endpoints
+│   │   ├── teams.routes.ts      # Endpoints de Times
+│   │   ├── players.routes.ts    # Endpoints de Jogadores
+│   │   ├── matches.routes.ts    # Endpoints de Partidas
+│   │   ├── championships.routes.ts # Endpoints de Campeonatos
+│   │   └── stadiums.routes.ts   # Endpoints de Estádios
 │   ├── types/
-│   │   └── index.ts             # TypeScript types
-│   └── index.ts                 # Main application entry
-├── docker-compose.yml           # Docker configuration
+│   │   └── index.ts             # Tipos TypeScript
+│   └── index.ts                 # Entrada principal da aplicação
+├── docker-compose.yml           # Configuração Docker
 ├── package.json
 ├── tsconfig.json
 └── README.md
 ```
 
-## 📊 Data Models
+## 📊 Modelos de Dados
 
-### Team
-- name, logo, founded year, city, country, coach
-- Relations: has many players, has one stadium
+### Time
+- nome, logo, ano de fundação, cidade, país, técnico
+- Relações: possui muitos jogadores, possui um estádio
 
-### Player
-- name, position, number, birthDate, nationality, height, weight
-- Statistics: goals, assists, yellow/red cards
-- Relations: belongs to one team
+### Jogador
+- nome, posição, número, data de nascimento, nacionalidade, altura, peso
+- Estatísticas: gols, assistências, cartões amarelos/vermelhos
+- Relações: pertence a um time
 
-### Match
-- home/away teams, championship, date, scores, status, round, attendance
-- Relations: belongs to championship, has two teams
+### Partida
+- times mandante/visitante, campeonato, data, placares, status, rodada, público
+- Relações: pertence a um campeonato, possui dois times
 
-### Championship
-- name, year, start/end dates, teams, standings, status
-- Automatically calculates standings based on match results
+### Campeonato
+- nome, ano, datas de início/fim, times, classificação, status
+- Calcula automaticamente a classificação baseada nos resultados das partidas
 
-### Stadium
-- name, capacity, city, country, address, inaugurated year, surface type
+### Estádio
+- nome, capacidade, cidade, país, endereço, ano de inauguração, tipo de superfície
 
 ## 🌐 Deployment
 
 ### Vercel
 
-This project is configured for deployment on Vercel using Serverless Functions.
+Este projeto está configurado para deployment na Vercel usando Serverless Functions.
 
-#### Prerequisites
-1. **MongoDB Atlas**: Since Vercel is serverless, you cannot use the local Docker MongoDB. You need a cloud-hosted MongoDB.
-   - Create a free account at [MongoDB Atlas](https://www.mongodb.com/cloud/atlas).
-   - Create a new cluster.
-   - Create a database user.
-   - Get the connection string (URI).
+#### Pré-requisitos
+1. **MongoDB Atlas**: Como a Vercel é serverless, você não pode usar o MongoDB local do Docker. Você precisa de um MongoDB hospedado na nuvem.
+   - Crie uma conta gratuita no [MongoDB Atlas](https://www.mongodb.com/cloud/atlas).
+   - Crie um novo cluster.
+   - Crie um usuário de banco de dados.
+   - Obtenha a string de conexão (URI).
 
-#### Deployment Steps
+#### Passos para Deployment
 
-1. **Install Vercel CLI** (optional if deploying via Git):
+1. **Instale a CLI da Vercel** (opcional se fizer deploy via Git):
    ```bash
    npm i -g vercel
    ```
@@ -291,20 +291,20 @@ This project is configured for deployment on Vercel using Serverless Functions.
    vercel
    ```
 
-3. **Environment Variables**:
-   When deploying, Vercel will ask for environment variables. You must provide:
-   - `MONGODB_URI`: Your MongoDB Atlas connection string (e.g., `mongodb+srv://user:pass@cluster.mongodb.net/?retryWrites=true&w=majority`)
-   - `MONGODB_DATABASE`: Your database name (e.g., `football_championship`)
+3. **Variáveis de Ambiente**:
+   Ao fazer o deploy, a Vercel solicitará variáveis de ambiente. Você deve fornecer:
+   - `MONGODB_URI`: Sua string de conexão do MongoDB Atlas (ex: `mongodb+srv://user:pass@cluster.mongodb.net/?retryWrites=true&w=majority`)
+   - `MONGODB_DATABASE`: Nome do seu banco de dados (ex: `football_championship`)
 
-   You can also set these in the Vercel Dashboard under Settings > Environment Variables.
+   Você também pode configurar estas variáveis no Dashboard da Vercel em Settings > Environment Variables.
 
-#### Note on Runtime
-The project uses a custom adapter in `api/index.ts` to run ElysiaJS on Vercel's Node.js runtime. This ensures compatibility with Vercel's serverless environment while maintaining the developer experience of ElysiaJS.
+#### Nota sobre Runtime
+O projeto usa um adaptador customizado em `api/index.ts` para rodar ElysiaJS no runtime Node.js da Vercel. Isso garante compatibilidade com o ambiente serverless da Vercel mantendo a experiência de desenvolvimento do ElysiaJS.
 
-## 📄 License
+## 📄 Licença
 
 MIT
 
-## 👨‍💻 Author
+## 👨‍💻 Autor
 
-Built with ElysiaJS, MongoDB, and Docker for OAT2 - API Development Course
+Construído com ElysiaJS, MongoDB e Docker para OAT2 - Curso de Desenvolvimento de APIs

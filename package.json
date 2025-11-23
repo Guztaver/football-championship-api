@@ -1,7 +1,7 @@
 {
   "name": "football-championship-api",
   "version": "1.0.0",
-  "description": "Football Championship Management System API built with Express and MongoDB",
+  "description": "API de Sistema de Gerenciamento de Campeonato de Futebol construída com Express e MongoDB",
   "type": "module",
   "scripts": {
     "dev": "nodemon --exec tsx src/app.ts",

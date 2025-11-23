@@ -38,7 +38,7 @@ app.use(
 app.get('/', (req: Request, res: Response) => {
     res.json({
         success: true,
-        message: 'Football Championship API is running',
+        message: 'API de Campeonato de Futebol está rodando',
         version: '1.0.0',
         documentation: '/api-docs',
     });
@@ -55,17 +55,17 @@ app.use('/stadiums', stadiumsRouter);
 app.use((req: Request, res: Response) => {
     res.status(404).json({
         success: false,
-        error: 'Route not found',
+        error: 'Rota não encontrada',
     });
 });
 
 // Error handling middleware
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-    console.error('Error:', err);
+    console.error('Erro:', err);
 
     res.status(500).json({
         success: false,
-        error: 'Internal server error',
+        error: 'Erro interno do servidor',
         details: err.message,
     });
 });
@@ -76,11 +76,11 @@ async function startServer() {
         await connectToDatabase();
 
         app.listen(PORT, () => {
-            console.log('🚀 Football Championship API is running');
-            console.log(`📍 Server: http://localhost:${PORT}`);
-            console.log(`📚 Documentation: http://localhost:${PORT}/api-docs`);
+            console.log('🚀 API de Campeonato de Futebol está rodando');
+            console.log(`📍 Servidor: http://localhost:${PORT}`);
+            console.log(`📚 Documentação: http://localhost:${PORT}/api-docs`);
             console.log('');
-            console.log('Available endpoints:');
+            console.log('Endpoints disponíveis:');
             console.log('  - GET    /');
             console.log('  - CRUD   /teams');
             console.log('  - CRUD   /players');
@@ -89,7 +89,7 @@ async function startServer() {
             console.log('  - CRUD   /stadiums');
         });
     } catch (error) {
-        console.error('❌ Failed to start server:', error);
+        console.error('❌ Falha ao iniciar servidor:', error);
         process.exit(1);
     }
 }
@@ -101,13 +101,13 @@ if (import.meta.url === `file://${process.argv[1]}`) {
 
 // Handle shutdown
 process.on('SIGINT', async () => {
-    console.log('\n🛑 Shutting down gracefully...');
+    console.log('\n🛑 Encerrando graciosamente...');
     await closeDatabase();
     process.exit(0);
 });
 
 process.on('SIGTERM', async () => {
-    console.log('\n🛑 Shutting down gracefully...');
+    console.log('\n🛑 Encerrando graciosamente...');
     await closeDatabase();
     process.exit(0);
 });

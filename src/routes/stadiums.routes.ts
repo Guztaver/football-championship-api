@@ -10,7 +10,7 @@ stadiumsRouter.post('/', async (req: Request, res: Response) => {
         res.json({
             success: true,
             data: stadium,
-            message: 'Stadium created successfully',
+            message: 'Estádio criado com sucesso',
         });
     } catch (error: any) {
         res.json({
@@ -48,7 +48,7 @@ stadiumsRouter.get('/:id', async (req: Request, res: Response) => {
         if (!stadium) {
             return res.json({
                 success: false,
-                error: 'Stadium not found',
+                error: 'Estádio não encontrado',
             });
         }
 
@@ -79,7 +79,7 @@ stadiumsRouter.put('/:id', async (req: Request, res: Response) => {
         res.json({
             success: true,
             data: stadium,
-            message: 'Stadium updated successfully',
+            message: 'Estádio atualizado com sucesso',
         });
     } catch (error: any) {
         res.json({
@@ -103,7 +103,7 @@ stadiumsRouter.delete('/:id', async (req: Request, res: Response) => {
 
         res.json({
             success: true,
-            message: 'Stadium deleted successfully',
+            message: 'Estádio deletado com sucesso',
         });
     } catch (error: any) {
         res.json({

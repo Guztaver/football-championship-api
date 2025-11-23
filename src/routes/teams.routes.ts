@@ -10,7 +10,7 @@ teamsRouter.post('/', async (req: Request, res: Response) => {
         res.json({
             success: true,
             data: team,
-            message: 'Team created successfully',
+            message: 'Time criado com sucesso',
         });
     } catch (error: any) {
         res.json({
@@ -48,7 +48,7 @@ teamsRouter.get('/:id', async (req: Request, res: Response) => {
         if (!team) {
             return res.json({
                 success: false,
-                error: 'Team not found',
+                error: 'Time não encontrado',
             });
         }
 
@@ -72,7 +72,7 @@ teamsRouter.get('/:id/players', async (req: Request, res: Response) => {
         if (!team) {
             return res.json({
                 success: false,
-                error: 'Team not found',
+                error: 'Time não encontrado',
             });
         }
 
@@ -96,14 +96,14 @@ teamsRouter.put('/:id', async (req: Request, res: Response) => {
         if (!team) {
             return res.json({
                 success: false,
-                error: 'Team not found',
+                error: 'Time não encontrado',
             });
         }
 
         res.json({
             success: true,
             data: team,
-            message: 'Team updated successfully',
+            message: 'Time atualizado com sucesso',
         });
     } catch (error: any) {
         res.json({
@@ -121,13 +121,13 @@ teamsRouter.delete('/:id', async (req: Request, res: Response) => {
         if (!deleted) {
             return res.json({
                 success: false,
-                error: 'Team not found',
+                error: 'Time não encontrado',
             });
         }
 
         res.json({
             success: true,
-            message: 'Team deleted successfully',
+            message: 'Time deletado com sucesso',
         });
     } catch (error: any) {
         res.json({

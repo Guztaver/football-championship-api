@@ -10,7 +10,7 @@ matchesRouter.post('/', async (req: Request, res: Response) => {
         res.json({
             success: true,
             data: match,
-            message: 'Match created successfully',
+            message: 'Partida criada com sucesso',
         });
     } catch (error: any) {
         res.json({
@@ -56,7 +56,7 @@ matchesRouter.get('/:id', async (req: Request, res: Response) => {
         if (!match) {
             return res.json({
                 success: false,
-                error: 'Match not found',
+                error: 'Partida não encontrada',
             });
         }
 
@@ -87,7 +87,7 @@ matchesRouter.put('/:id', async (req: Request, res: Response) => {
         res.json({
             success: true,
             data: match,
-            message: 'Match updated successfully',
+            message: 'Partida atualizada com sucesso',
         });
     } catch (error: any) {
         res.json({
@@ -113,7 +113,7 @@ matchesRouter.patch('/:id/score', async (req: Request, res: Response) => {
         res.json({
             success: true,
             data: match,
-            message: 'Match score updated successfully',
+            message: 'Placar da partida atualizado com sucesso',
         });
     } catch (error: any) {
         res.json({
@@ -137,7 +137,7 @@ matchesRouter.delete('/:id', async (req: Request, res: Response) => {
 
         res.json({
             success: true,
-            message: 'Match deleted successfully',
+            message: 'Partida deletada com sucesso',
         });
     } catch (error: any) {
         res.json({
