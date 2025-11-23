@@ -12,8 +12,14 @@ export async function connectToDatabase(): Promise<Db> {
     }
 
     try {
-        console.log('🔌 Connecting to MongoDB...');
-        client = new MongoClient(MONGODB_URI);
+        // Mask the URI for logging safety
+        const maskedUri = MONGODB_URI.replace(/\/\/([^:]+):([^@]+)@/, '//***:***@');
+        console.log(`🔌 Connecting to MongoDB at ${maskedUri}...`);
+        
+        client = new MongoClient(MONGODB_URI, {
+            serverSelectionTimeoutMS: 5000, // Fail fast after 5 seconds
+            connectTimeoutMS: 10000,
+        });
         await client.connect();
 
         db = client.db(MONGODB_DATABASE);
