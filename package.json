@@ -2,7 +2,6 @@
   "name": "football-championship-api",
   "version": "1.0.0",
   "description": "Football Championship Management System API built with ElysiaJS and MongoDB",
-  "main": "src/app.ts",
   "type": "module",
   "scripts": {
     "dev": "bun --watch src/app.ts",
