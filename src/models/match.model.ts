@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb';
-import { getDatabase } from '@/config/database';
-import type { Match, CreateMatchDto, UpdateMatchDto } from '@/types';
+import { getDatabase } from '../config/database';
+import type { Match, CreateMatchDto, UpdateMatchDto } from '../types';
 
 const COLLECTION = 'matches';
 

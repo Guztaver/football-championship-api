@@ -1,5 +1,5 @@
 import { Elysia, t } from 'elysia';
-import { TeamModel } from '@/models/team.model';
+import { TeamModel } from '../models/team.model';
 
 export const teamsRoutes = new Elysia({ prefix: '/teams' })
     // Create Team

@@ -1,5 +1,5 @@
 import { Elysia, t } from 'elysia';
-import { StadiumModel } from '@/models/stadium.model';
+import { StadiumModel } from '../models/stadium.model';
 
 export const stadiumsRoutes = new Elysia({ prefix: '/stadiums' })
     // Create Stadium

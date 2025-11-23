@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb';
-import { getDatabase } from '@/config/database';
-import type { Championship, CreateChampionshipDto, UpdateChampionshipDto, ChampionshipStanding } from '@/types';
+import { getDatabase } from '../config/database';
+import type { Championship, CreateChampionshipDto, UpdateChampionshipDto, ChampionshipStanding } from '../types';
 import { MatchModel } from './match.model';
 
 const COLLECTION = 'championships';
