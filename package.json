@@ -2,12 +2,12 @@
   "name": "football-championship-api",
   "version": "1.0.0",
   "description": "Football Championship Management System API built with ElysiaJS and MongoDB",
-  "main": "src/index.ts",
+  "main": "src/app.ts",
   "type": "module",
   "scripts": {
-    "dev": "bun --watch src/index.ts",
-    "start": "bun src/index.ts",
-    "build": "bun build src/index.ts --outdir ./dist --target bun",
+    "dev": "bun --watch src/app.ts",
+    "start": "bun src/app.ts",
+    "build": "bun build src/app.ts --outdir ./dist --target bun",
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
     "docker:logs": "docker-compose logs -f"
