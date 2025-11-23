@@ -1,256 +1,148 @@
-import { Elysia, t } from 'elysia';
+import { Router, Request, Response } from 'express';
 import { MatchModel } from '../models/match.model.js';
 
-export const matchesRoutes = new Elysia({ prefix: '/matches' })
-    // Create Match
-    .post(
-        '/',
-        async ({ body }) => {
-            try {
-                const match = await MatchModel.create(body);
-                return {
-                    success: true,
-                    data: match,
-                    message: 'Match created successfully',
-                };
-            } catch (error: any) {
-                return {
-                    success: false,
-                    error: error.message,
-                };
-            }
-        },
-        {
-            body: t.Object({
-                homeTeamId: t.String({ description: 'Home team ID' }),
-                awayTeamId: t.String({ description: 'Away team ID' }),
-                championshipId: t.String({ description: 'Championship ID' }),
-                stadiumId: t.Optional(t.String({ description: 'Stadium ID where match will be played' })),
-                date: t.String({ format: 'date-time', description: 'Match date and time (ISO 8601)' }),
-                round: t.Optional(t.Number({ minimum: 1, description: 'Round number' })),
-            }),
-            detail: {
-                tags: ['Matches'],
-                summary: 'Schedule a new match',
-                description: 'Creates a new match between two teams in a championship',
-            },
+export const matchesRouter = Router();
+
+// Create Match
+matchesRouter.post('/', async (req: Request, res: Response) => {
+    try {
+        const match = await MatchModel.create(req.body);
+        res.json({
+            success: true,
+            data: match,
+            message: 'Match created successfully',
+        });
+    } catch (error: any) {
+        res.json({
+            success: false,
+            error: error.message,
+        });
+    }
+});
+
+// Get All Matches
+matchesRouter.get('/', async (req: Request, res: Response) => {
+    try {
+        const page = parseInt(req.query.page as string) || 1;
+        const limit = parseInt(req.query.limit as string) || 10;
+
+        const filters: any = {};
+        if (req.query.teamId) filters.teamId = req.query.teamId;
+        if (req.query.championshipId) filters.championshipId = req.query.championshipId;
+        if (req.query.status) filters.status = req.query.status;
+        if (req.query.dateFrom) filters.dateFrom = req.query.dateFrom;
+        if (req.query.dateTo) filters.dateTo = req.query.dateTo;
+
+        const result = await MatchModel.findAll(page, limit, filters);
+
+        res.json({
+            success: true,
+            data: result.matches,
+            pagination: result.pagination,
+        });
+    } catch (error: any) {
+        res.json({
+            success: false,
+            error: error.message,
+        });
+    }
+});
+
+// Get Match by ID
+matchesRouter.get('/:id', async (req: Request, res: Response) => {
+    try {
+        const match = await MatchModel.findByIdWithTeams(req.params.id);
+
+        if (!match) {
+            return res.json({
+                success: false,
+                error: 'Match not found',
+            });
         }
-    )
 
-    // Get All Matches
-    .get(
-        '/',
-        async ({ query }) => {
-            try {
-                const page = query.page || 1;
-                const limit = query.limit || 10;
+        res.json({
+            success: true,
+            data: match,
+        });
+    } catch (error: any) {
+        res.json({
+            success: false,
+            error: error.message,
+        });
+    }
+});
 
-                const filters: any = {};
-                if (query.teamId) filters.teamId = query.teamId;
-                if (query.championshipId) filters.championshipId = query.championshipId;
-                if (query.status) filters.status = query.status;
-                if (query.dateFrom) filters.dateFrom = query.dateFrom;
-                if (query.dateTo) filters.dateTo = query.dateTo;
+// Update Match
+matchesRouter.put('/:id', async (req: Request, res: Response) => {
+    try {
+        const match = await MatchModel.update(req.params.id, req.body);
 
-                const result = await MatchModel.findAll(page, limit, filters);
-
-                return {
-                    success: true,
-                    data: result.matches,
-                    pagination: result.pagination,
-                };
-            } catch (error: any) {
-                return {
-                    success: false,
-                    error: error.message,
-                };
-            }
-        },
-        {
-            query: t.Object({
-                page: t.Optional(t.Numeric({ minimum: 1, description: 'Page number' })),
-                limit: t.Optional(t.Numeric({ minimum: 1, maximum: 100, description: 'Items per page' })),
-                teamId: t.Optional(t.String({ description: 'Filter by team ID (home or away)' })),
-                championshipId: t.Optional(t.String({ description: 'Filter by championship ID' })),
-                status: t.Optional(t.String({ description: 'Filter by status' })),
-                dateFrom: t.Optional(t.String({ format: 'date', description: 'Filter matches from this date' })),
-                dateTo: t.Optional(t.String({ format: 'date', description: 'Filter matches to this date' })),
-            }),
-            detail: {
-                tags: ['Matches'],
-                summary: 'List all matches',
-                description: 'Retrieves a paginated list of matches with optional filters',
-            },
+        if (!match) {
+            return res.json({
+                success: false,
+                error: 'Match not found',
+            });
         }
-    )
 
-    // Get Match by ID
-    .get(
-        '/:id',
-        async ({ params }) => {
-            try {
-                const match = await MatchModel.findByIdWithTeams(params.id);
+        res.json({
+            success: true,
+            data: match,
+            message: 'Match updated successfully',
+        });
+    } catch (error: any) {
+        res.json({
+            success: false,
+            error: error.message,
+        });
+    }
+});
 
-                if (!match) {
-                    return {
-                        success: false,
-                        error: 'Match not found',
-                    };
-                }
+// Update Match Score
+matchesRouter.patch('/:id/score', async (req: Request, res: Response) => {
+    try {
+        const { homeScore, awayScore } = req.body;
+        const match = await MatchModel.updateScore(req.params.id, homeScore, awayScore);
 
-                return {
-                    success: true,
-                    data: match,
-                };
-            } catch (error: any) {
-                return {
-                    success: false,
-                    error: error.message,
-                };
-            }
-        },
-        {
-            params: t.Object({
-                id: t.String({ description: 'Match ID' }),
-            }),
-            detail: {
-                tags: ['Matches'],
-                summary: 'Get match by ID',
-                description: 'Retrieves a specific match with team details',
-            },
+        if (!match) {
+            return res.json({
+                success: false,
+                error: 'Match not found',
+            });
         }
-    )
 
-    // Update Match
-    .put(
-        '/:id',
-        async ({ params, body }) => {
-            try {
-                const match = await MatchModel.update(params.id, body);
+        res.json({
+            success: true,
+            data: match,
+            message: 'Match score updated successfully',
+        });
+    } catch (error: any) {
+        res.json({
+            success: false,
+            error: error.message,
+        });
+    }
+});
 
-                if (!match) {
-                    return {
-                        success: false,
-                        error: 'Match not found',
-                    };
-                }
+// Delete Match
+matchesRouter.delete('/:id', async (req: Request, res: Response) => {
+    try {
+        const deleted = await MatchModel.delete(req.params.id);
 
-                return {
-                    success: true,
-                    data: match,
-                    message: 'Match updated successfully',
-                };
-            } catch (error: any) {
-                return {
-                    success: false,
-                    error: error.message,
-                };
-            }
-        },
-        {
-            params: t.Object({
-                id: t.String({ description: 'Match ID' }),
-            }),
-            body: t.Object({
-                homeTeamId: t.Optional(t.String()),
-                awayTeamId: t.Optional(t.String()),
-                championshipId: t.Optional(t.String()),
-                stadiumId: t.Optional(t.String()),
-                date: t.Optional(t.String({ format: 'date-time' })),
-                homeScore: t.Optional(t.Number({ minimum: 0 })),
-                awayScore: t.Optional(t.Number({ minimum: 0 })),
-                status: t.Optional(t.Union([
-                    t.Literal('scheduled'),
-                    t.Literal('in_progress'),
-                    t.Literal('finished'),
-                    t.Literal('cancelled'),
-                ])),
-                round: t.Optional(t.Number({ minimum: 1 })),
-                attendance: t.Optional(t.Number({ minimum: 0 })),
-            }),
-            detail: {
-                tags: ['Matches'],
-                summary: 'Update match',
-                description: 'Updates match details including scores and status',
-            },
+        if (!deleted) {
+            return res.json({
+                success: false,
+                error: 'Match not found',
+            });
         }
-    )
 
-    // Update Match Score
-    .patch(
-        '/:id/score',
-        async ({ params, body }) => {
-            try {
-                const match = await MatchModel.updateScore(params.id, body.homeScore, body.awayScore);
-
-                if (!match) {
-                    return {
-                        success: false,
-                        error: 'Match not found',
-                    };
-                }
-
-                return {
-                    success: true,
-                    data: match,
-                    message: 'Match score updated successfully',
-                };
-            } catch (error: any) {
-                return {
-                    success: false,
-                    error: error.message,
-                };
-            }
-        },
-        {
-            params: t.Object({
-                id: t.String({ description: 'Match ID' }),
-            }),
-            body: t.Object({
-                homeScore: t.Number({ minimum: 0, description: 'Home team score' }),
-                awayScore: t.Number({ minimum: 0, description: 'Away team score' }),
-            }),
-            detail: {
-                tags: ['Matches'],
-                summary: 'Update match score',
-                description: 'Updates the final score of a match and sets it to finished',
-            },
-        }
-    )
-
-    // Delete Match
-    .delete(
-        '/:id',
-        async ({ params }) => {
-            try {
-                const deleted = await MatchModel.delete(params.id);
-
-                if (!deleted) {
-                    return {
-                        success: false,
-                        error: 'Match not found',
-                    };
-                }
-
-                return {
-                    success: true,
-                    message: 'Match deleted successfully',
-                };
-            } catch (error: any) {
-                return {
-                    success: false,
-                    error: error.message,
-                };
-            }
-        },
-        {
-            params: t.Object({
-                id: t.String({ description: 'Match ID' }),
-            }),
-            detail: {
-                tags: ['Matches'],
-                summary: 'Delete match',
-                description: 'Deletes a match from the system',
-            },
-        }
-    );
+        res.json({
+            success: true,
+            message: 'Match deleted successfully',
+        });
+    } catch (error: any) {
+        res.json({
+            success: false,
+            error: error.message,
+        });
+    }
+});

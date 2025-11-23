@@ -1,100 +1,84 @@
-import { Elysia } from 'elysia';
-import { swagger } from '@elysiajs/swagger';
-import { cors } from '@elysiajs/cors';
+import express, { Request, Response, NextFunction } from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import { apiReference } from '@scalar/express-api-reference';
 import { connectToDatabase, closeDatabase } from './config/database.js';
-import { teamsRoutes } from './routes/teams.routes.js';
-import { playersRoutes } from './routes/players.routes.js';
-import { matchesRoutes } from './routes/matches.routes.js';
-import { championshipsRoutes } from './routes/championships.routes.js';
-import { stadiumsRoutes } from './routes/stadiums.routes.js';
+import { openApiSpec } from './config/scalar.js';
+import { teamsRouter } from './routes/teams.routes.js';
+import { playersRouter } from './routes/players.routes.js';
+import { matchesRouter } from './routes/matches.routes.js';
+import { championshipsRouter } from './routes/championships.routes.js';
+import { stadiumsRouter } from './routes/stadiums.routes.js';
+
+// Load environment variables
+dotenv.config();
 
 const PORT = process.env.PORT || 3000;
 
-// ... imports
+// Initialize Express app
+export const app = express();
 
-// Initialize Elysia app
-export const app = new Elysia()
-    // ... middleware and routes
-    .use(cors())
-    .use(swagger({
-        // ... swagger config
-        documentation: {
-            info: {
-                title: 'Football Championship API',
-                version: '1.0.0',
-                description: 'Complete CRUD API for managing football championships, teams, players, matches, and stadiums',
-            },
-            tags: [
-                { name: 'Teams', description: 'Team management endpoints' },
-                { name: 'Players', description: 'Player management endpoints' },
-                { name: 'Matches', description: 'Match management endpoints' },
-                { name: 'Championships', description: 'Championship management endpoints' },
-                { name: 'Stadiums', description: 'Stadium management endpoints' },
-            ],
-            servers: [
-                {
-                    url: process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000',
-                    description: process.env.VERCEL_URL ? 'Production server' : 'Local development server',
-                },
-            ],
+// Middleware
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// API Documentation with Scalar
+app.use(
+    '/api-docs',
+    apiReference({
+        spec: {
+            content: openApiSpec,
         },
-        path: '/swagger',
-    }))
-    // ... routes
-    .get('/', () => ({
+        theme: 'purple',
+    })
+);
+
+// Health check endpoint
+app.get('/', (req: Request, res: Response) => {
+    res.json({
         success: true,
         message: 'Football Championship API is running',
         version: '1.0.0',
-        documentation: '/swagger',
-    }), {
-        detail: {
-            tags: ['General'],
-            summary: 'Health check',
-            description: 'Check if the API is running and get basic information',
-        },
-    })
-    .use(teamsRoutes)
-    .use(playersRoutes)
-    .use(matchesRoutes)
-    .use(championshipsRoutes)
-    .use(stadiumsRoutes)
-    .onError(({ code, error, set }) => {
-        console.error('Error:', error);
-
-        if (code === 'VALIDATION') {
-            set.status = 400;
-            return {
-                success: false,
-                error: 'Validation error',
-                details: String(error),
-            };
-        }
-
-        if (code === 'NOT_FOUND') {
-            set.status = 404;
-            return {
-                success: false,
-                error: 'Route not found',
-            };
-        }
-
-        set.status = 500;
-        return {
-            success: false,
-            error: 'Internal server error',
-            details: error instanceof Error ? error.message : String(error),
-        };
+        documentation: '/api-docs',
     });
+});
 
-// Start server only if run directly
-if (import.meta.main) {
-    connectToDatabase()
-        .then(() => {
-            app.listen(PORT);
+// Mount route handlers
+app.use('/teams', teamsRouter);
+app.use('/players', playersRouter);
+app.use('/matches', matchesRouter);
+app.use('/championships', championshipsRouter);
+app.use('/stadiums', stadiumsRouter);
 
+// 404 handler
+app.use((req: Request, res: Response) => {
+    res.status(404).json({
+        success: false,
+        error: 'Route not found',
+    });
+});
+
+// Error handling middleware
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+    console.error('Error:', err);
+
+    res.status(500).json({
+        success: false,
+        error: 'Internal server error',
+        details: err.message,
+    });
+});
+
+// Start server function
+async function startServer() {
+    try {
+        await connectToDatabase();
+
+        app.listen(PORT, () => {
             console.log('🚀 Football Championship API is running');
             console.log(`📍 Server: http://localhost:${PORT}`);
-            console.log(`📚 Documentation: http://localhost:${PORT}/swagger`);
+            console.log(`📚 Documentation: http://localhost:${PORT}/api-docs`);
             console.log('');
             console.log('Available endpoints:');
             console.log('  - GET    /');
@@ -103,11 +87,16 @@ if (import.meta.main) {
             console.log('  - CRUD   /matches');
             console.log('  - CRUD   /championships');
             console.log('  - CRUD   /stadiums');
-        })
-        .catch((error) => {
-            console.error('❌ Failed to start server:', error);
-            process.exit(1);
         });
+    } catch (error) {
+        console.error('❌ Failed to start server:', error);
+        process.exit(1);
+    }
+}
+
+// Only start server if this file is run directly
+if (import.meta.url === `file://${process.argv[1]}`) {
+    startServer();
 }
 
 // Handle shutdown
@@ -122,4 +111,3 @@ process.on('SIGTERM', async () => {
     await closeDatabase();
     process.exit(0);
 });
-
