@@ -1,20 +1,9 @@
 {
     "version": 2,
     "bunVersion": "1.x",
-    "builds": [
-        {
-            "src": "api/**/*.ts",
-            "use": "@vercel/bun"
-        },
-        {
-            "src": "public/**",
-            "use": "@vercel/static"
-        }
-    ],
     "routes": [
         {
-            "src": "/favicon.ico",
-            "dest": "/public/favicon.ico"
+            "handle": "filesystem"
         },
         {
             "src": "/(.*)",
